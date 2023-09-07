@@ -8,7 +8,7 @@ export class PlanetsController extends BaseController {
         this.router
             .post('', this.createPlanet)
             .get('', this.getPlanets)
-
+            .delete('', this.deletePlanet)
     }
 
     async createPlanet(req, res, next) {
@@ -26,6 +26,16 @@ export class PlanetsController extends BaseController {
             const query = req.query
             const planets = await planetsService.getPlanets(query)
             res.send(planets)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async deletePlanet(req, res, next) {
+        try {
+            const planetId = req.params.planetId
+            const message = await planetsService.deletePlanet(planetId)
+            res.send(message)
         } catch (error) {
             next(error)
         }
